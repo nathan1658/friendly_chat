@@ -31,17 +31,32 @@ class ChatScreen extends StatefulWidget {
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   final _textController = TextEditingController();
   final List<ChatMessage> _messages = [];
   final FocusNode _focusNode = FocusNode();
 
   void _handleSubmitted(String text) {
     _textController.clear();
+    final newMsg = ChatMessage(
+        animationController: AnimationController(
+          vsync: this,
+          duration: const Duration(milliseconds: 300),
+        ),
+        text: text);
     setState(() {
-      _messages.insert(0, ChatMessage(text: text));
+      _messages.insert(0, newMsg);
     });
+    newMsg.animationController.forward();
     _focusNode.requestFocus();
+  }
+
+  @override
+  void dispose() {
+    for (final a in _messages) {
+      a.animationController.dispose();
+    }
+    super.dispose();
   }
 
   Widget _buildTextComposer() {
