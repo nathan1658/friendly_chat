@@ -141,17 +141,19 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
             Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0, // NEW
         title: const Text('FriendlyChat'),
       ),
-      body: Container(
-        child: Column(
-          children: [
-            Flexible(child: Scrollbar(child: _buildMessageList())),
-            const Divider(
-              height: 1,
-            ),
-            Container(
-                decoration: BoxDecoration(color: Theme.of(context).cardColor),
-                child: _buildTextComposer()),
-          ],
+      body: SafeArea(
+        child: Container(
+          child: Column(
+            children: [
+              Flexible(child: Scrollbar(child: _buildMessageList())),
+              const Divider(
+                height: 1,
+              ),
+              Container(
+                  decoration: BoxDecoration(color: Theme.of(context).cardColor),
+                  child: _buildTextComposer()),
+            ],
+          ),
         ),
       ),
     );
